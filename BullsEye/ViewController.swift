@@ -10,11 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var currentValue: Int = 50;
-    var targetValue: Int = 0;
+    var currentValue = 50;
+    var targetValue  = 0;
+    var score = 0;
+    var round = 0;
     
     @IBOutlet weak var slider: UISlider!;
-    @IBOutlet weak var label: UILabel!;
+    @IBOutlet weak var target: UILabel!;
+    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var roundLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,53 +26,62 @@ class ViewController: UIViewController {
         let roundedValue = slider.value.rounded();
         currentValue = Int(roundedValue);
         targetValue = Int.random(in: 1...100);
-        startNewValue();
+        startNewRound();
     }
     
     @IBAction func showAlert() {
-        //        var difference: Int;
-        //        if currentValue > targetValue {
-        //            difference = currentValue - targetValue;
-        //        } else if currentValue < targetValue{
-        //            difference = targetValue - currentValue;
-        //        } else {
-        //            difference = 0;
-        //        }
-        
-        //        if currentValue > targetValue {
-        //            difference = currentValue - targetValue;
-        //        } else if currentValue < targetValue{
-        //            difference = (currentValue - targetValue) / (-1);
-        //        } else {
-        //            difference = 0;
-        //        }
-        
-        var difference = currentValue - targetValue;
-        if difference < 0 {
-            difference = difference * (-1);
+        let difference = abs(targetValue - currentValue);
+        var points = 100 - difference;
+        score += points;
+        let title: String;
+        if difference == 0 {
+            title = "Perfect 👌🏻 you got a BONUS!";
+            score += 100;
+            points += 100;
+        } else if difference == 1 {
+            title = "Perfect 👌🏻 you got a BONUS!";
+            score += 50;
+            points += 50;
+        } else if difference < 5 {
+            title = "You almost had it"
+        } else if difference < 10 {
+            title = "Pretty good!"
+        } else {
+            title = "Not even close..."
         }
-        
-        let message = "The value of the slider is now: \(currentValue)\nThe target value is \(targetValue)\nThe difference is \(difference)";
-        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert);
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil);
+        scoreLabel.text = String(score);
+        roundLabel.text = String();
+        let message = "You scored \(points) points";
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert);
+        let action = UIAlertAction(title: "OK", style: .default, handler: {
+            action in
+            self.startNewRound()
+        });
         alert.addAction(action);
         present(alert, animated: true, completion: nil);
-        startNewValue();
     }
     
     @IBAction func slider(_ slider: UISlider) {
         let roundedValue = slider.value.rounded();
         print("The value of the slider is now: \(roundedValue)");
         currentValue = Int(roundedValue);
-        label.text = String(currentValue);
     }
     
     
-    func startNewValue() {
+    func startNewRound() {
+        round += 1;
         targetValue = Int.random(in: 1...100);
+        print(targetValue);
         currentValue = 50;
         slider.value = Float(currentValue);
+        updateLabels();
     }
     
+    func updateLabels() {
+        target.text = String(targetValue);
+        scoreLabel.text = String(score);
+        roundLabel.text = String(round);
 }
 
+
+}
