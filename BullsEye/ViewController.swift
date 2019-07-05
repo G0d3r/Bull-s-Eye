@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         let roundedValue = slider.value.rounded();
         currentValue = Int(roundedValue);
         targetValue = Int.random(in: 1...100);
-        startNewRound();
+        startNewGame();
     }
     
     @IBAction func showAlert() {
@@ -50,7 +50,7 @@ class ViewController: UIViewController {
             title = "Not even close..."
         }
         scoreLabel.text = String(score);
-        roundLabel.text = String();
+        roundLabel.text = String(round);
         let message = "You scored \(points) points";
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert);
         let action = UIAlertAction(title: "OK", style: .default, handler: {
@@ -67,6 +67,12 @@ class ViewController: UIViewController {
         currentValue = Int(roundedValue);
     }
     
+    @IBAction func startNewGame() {
+        score = 0;
+        round = 0;
+        startNewRound();
+    }
+    
     
     func startNewRound() {
         round += 1;
@@ -81,7 +87,6 @@ class ViewController: UIViewController {
         target.text = String(targetValue);
         scoreLabel.text = String(score);
         roundLabel.text = String(round);
-}
-
-
+    }
+    
 }
