@@ -63,6 +63,7 @@ class ViewController: UIViewController {
         } else {
             title = "Not even close..."
         }
+        
         scoreLabel.text = String(score);
         roundLabel.text = String(round);
         let message = "You scored \(points) points";
@@ -86,7 +87,6 @@ class ViewController: UIViewController {
         round = 0;
         startNewRound();
     }
-    
     
     func startNewRound() {
         round += 1;
