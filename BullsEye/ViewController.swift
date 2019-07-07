@@ -27,6 +27,20 @@ class ViewController: UIViewController {
         currentValue = Int(roundedValue);
         targetValue = Int.random(in: 1...100);
         startNewGame();
+        
+        let thumbImageNormal = #imageLiteral(resourceName: "SliderThumb-Normal");
+        slider.setThumbImage(thumbImageNormal, for: .normal);
+
+        let thumbImageHighlighted = #imageLiteral(resourceName: "SliderThumb-Highlighted");
+        slider.setThumbImage(thumbImageHighlighted, for: .highlighted);
+        
+        let insets = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14);
+        
+        let leftImage = #imageLiteral(resourceName: "SliderTrackLeft");
+        slider.setMinimumTrackImage(leftImage.resizableImage(withCapInsets: insets), for: .normal);
+        
+        let rightImage = #imageLiteral(resourceName: "SliderTrackRight");
+        slider.setMaximumTrackImage(rightImage.resizableImage(withCapInsets: insets), for: .normal);
     }
     
     @IBAction func showAlert() {
